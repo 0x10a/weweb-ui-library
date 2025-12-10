@@ -1,0 +1,26 @@
+{
+  "name": "@0x10a/weweb-ui-library",
+  "version": "0.1.0",
+  "description": "Shadcn-inspired UI component library for WeWeb",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "serve": "weweb serve",
+    "build": "weweb build"
+  },
+  "keywords": [
+    "weweb",
+    "ui",
+    "components",
+    "shadcn",
+    "design-system"
+  ],
+  "author": "0x10a",
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@weweb/cli": "latest"
+  }
+}
