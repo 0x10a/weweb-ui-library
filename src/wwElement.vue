@@ -9,21 +9,26 @@ export default {
   name: 'ShadcnThemeProvider',
   props: {
     content: { type: Object, required: true }
-  }
-};
-</script>
+  },
+  mounted() {
+    this.injectGlobalStyles();
+  },
+  methods: {
+    injectGlobalStyles() {
+      // Vérifier si les styles sont déjà injectés
+      if (document.getElementById('shadcn-global-styles')) return;
 
-<style>
-/* Shadcn Design Tokens */
-:root,
-.shadcn-theme-provider {
-  /* Colors - Light Mode */
+      const styleElement = document.createElement('style');
+      styleElement.id = 'shadcn-global-styles';
+      styleElement.textContent = this.getGlobalCSS();
+      document.head.appendChild(styleElement);
+    },
+    getGlobalCSS() {
+      return `
+/* Shadcn Global Styles - Injected by Theme Provider */
+:root {
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
   --primary: 0 0% 9%;
   --primary-foreground: 0 0% 98%;
   --secondary: 0 0% 96.1%;
@@ -38,22 +43,11 @@ export default {
   --input: 0 0% 89.8%;
   --ring: 0 0% 3.9%;
   --radius: 0.5rem;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
 }
 
-/* Dark Mode */
-.dark,
-.shadcn-theme-provider.dark {
+.dark {
   --background: 0 0% 3.9%;
   --foreground: 0 0% 98%;
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
   --primary: 0 0% 98%;
   --primary-foreground: 0 0% 9%;
   --secondary: 0 0% 14.9%;
@@ -67,309 +61,208 @@ export default {
   --border: 0 0% 14.9%;
   --input: 0 0% 14.9%;
   --ring: 0 0% 83.1%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
 }
 
-/* Global Styles - Apply to all HTML elements on the page */
-.shadcn-theme-provider *,
-.shadcn-theme-provider :global(*) {
-  box-sizing: border-box;
+/* Buttons */
+button:not([class*="ww-"]):not([class*="wwobject"]) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  white-space: nowrap !important;
+  border-radius: var(--radius) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  padding: 0.5rem 1rem !important;
+  height: 2.5rem !important;
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: none !important;
+  outline: none !important;
 }
 
-/* Typography */
-.shadcn-theme-provider :global(body),
-.shadcn-theme-provider {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+button:not([class*="ww-"]):not([class*="wwobject"]):hover:not(:disabled) {
+  opacity: 0.9 !important;
 }
 
-/* Buttons - Global */
-.shadcn-theme-provider :global(button:not([class*="ww-"])),
-.shadcn-theme-provider :global(.btn),
-.shadcn-theme-provider button:not([class*="ww-"]) {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  white-space: nowrap;
-  border-radius: var(--radius);
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  height: 2.5rem;
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  border: none;
-  outline: none;
+button:not([class*="ww-"]):not([class*="wwobject"]):focus-visible {
+  outline: 2px solid hsl(var(--ring)) !important;
+  outline-offset: 2px !important;
 }
 
-.shadcn-theme-provider :global(button:not([class*="ww-"])):hover:not(:disabled),
-.shadcn-theme-provider button:not([class*="ww-"]):hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.shadcn-theme-provider :global(button:not([class*="ww-"])):focus-visible,
-.shadcn-theme-provider button:not([class*="ww-"]):focus-visible {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
-}
-
-.shadcn-theme-provider :global(button:not([class*="ww-"])):disabled,
-.shadcn-theme-provider button:not([class*="ww-"]):disabled {
-  pointer-events: none;
-  opacity: 0.5;
+button:not([class*="ww-"]):not([class*="wwobject"]):disabled {
+  pointer-events: none !important;
+  opacity: 0.5 !important;
 }
 
 /* Button Variants */
-.shadcn-theme-provider :global(button.secondary),
-.shadcn-theme-provider button.secondary {
-  background: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
+button.secondary {
+  background: hsl(var(--secondary)) !important;
+  color: hsl(var(--secondary-foreground)) !important;
 }
 
-.shadcn-theme-provider :global(button.outline),
-.shadcn-theme-provider button.outline {
-  background: transparent;
-  border: 1px solid hsl(var(--input));
-  color: hsl(var(--foreground));
+button.outline {
+  background: transparent !important;
+  border: 1px solid hsl(var(--input)) !important;
+  color: hsl(var(--foreground)) !important;
 }
 
-.shadcn-theme-provider :global(button.ghost),
-.shadcn-theme-provider button.ghost {
-  background: transparent;
-  color: hsl(var(--foreground));
+button.ghost {
+  background: transparent !important;
+  color: hsl(var(--foreground)) !important;
 }
 
-.shadcn-theme-provider :global(button.ghost):hover:not(:disabled),
-.shadcn-theme-provider button.ghost:hover:not(:disabled) {
-  background: hsl(var(--accent));
-  opacity: 1;
+button.ghost:hover:not(:disabled) {
+  background: hsl(var(--accent)) !important;
+  opacity: 1 !important;
 }
 
-.shadcn-theme-provider :global(button.destructive),
-.shadcn-theme-provider button.destructive {
-  background: hsl(var(--destructive));
-  color: hsl(var(--destructive-foreground));
+button.destructive {
+  background: hsl(var(--destructive)) !important;
+  color: hsl(var(--destructive-foreground)) !important;
 }
 
-.shadcn-theme-provider :global(button.link),
-.shadcn-theme-provider button.link {
-  background: transparent;
-  color: hsl(var(--primary));
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  padding: 0;
-  height: auto;
+button.link {
+  background: transparent !important;
+  color: hsl(var(--primary)) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+  padding: 0 !important;
+  height: auto !important;
 }
 
-/* Inputs - Global */
-.shadcn-theme-provider :global(input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"])),
-.shadcn-theme-provider :global(textarea:not([class*="ww-"])),
-.shadcn-theme-provider input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]),
-.shadcn-theme-provider textarea:not([class*="ww-"]) {
-  display: flex;
-  width: 100%;
-  border-radius: var(--radius);
-  border: 1px solid hsl(var(--input));
-  background: hsl(var(--background));
-  padding: 0.5rem 0.75rem;
-  font-size: 14px;
-  transition: all 0.2s;
-  outline: none;
-  color: hsl(var(--foreground));
+/* Inputs */
+input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"]),
+textarea:not([class*="ww-"]):not([class*="wwobject"]),
+select:not([class*="ww-"]):not([class*="wwobject"]) {
+  display: flex !important;
+  width: 100% !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid hsl(var(--input)) !important;
+  background: hsl(var(--background)) !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 14px !important;
+  transition: all 0.2s !important;
+  outline: none !important;
+  color: hsl(var(--foreground)) !important;
 }
 
-.shadcn-theme-provider :global(input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"])):focus,
-.shadcn-theme-provider :global(textarea:not([class*="ww-"])):focus,
-.shadcn-theme-provider input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):focus,
-.shadcn-theme-provider textarea:not([class*="ww-"]):focus {
-  border-color: hsl(var(--ring));
-  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"]):focus,
+textarea:not([class*="ww-"]):not([class*="wwobject"]):focus,
+select:not([class*="ww-"]):not([class*="wwobject"]):focus {
+  border-color: hsl(var(--ring)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2) !important;
 }
 
-.shadcn-theme-provider :global(input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"])):disabled,
-.shadcn-theme-provider :global(textarea:not([class*="ww-"])):disabled,
-.shadcn-theme-provider input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):disabled,
-.shadcn-theme-provider textarea:not([class*="ww-"]):disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"]):disabled,
+textarea:not([class*="ww-"]):not([class*="wwobject"]):disabled,
+select:not([class*="ww-"]):not([class*="wwobject"]):disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
 }
 
-.shadcn-theme-provider :global(input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]))::placeholder,
-.shadcn-theme-provider :global(textarea:not([class*="ww-"]))::placeholder,
-.shadcn-theme-provider input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"])::placeholder,
-.shadcn-theme-provider textarea:not([class*="ww-"])::placeholder {
-  color: hsl(var(--muted-foreground));
+input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"])::placeholder,
+textarea:not([class*="ww-"]):not([class*="wwobject"])::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
 }
 
 /* Textarea */
-.shadcn-theme-provider :global(textarea:not([class*="ww-"])),
-.shadcn-theme-provider textarea:not([class*="ww-"]) {
-  min-height: 80px;
-  resize: vertical;
+textarea:not([class*="ww-"]):not([class*="wwobject"]) {
+  min-height: 80px !important;
+  resize: vertical !important;
 }
 
-/* Select - Global */
-.shadcn-theme-provider :global(select:not([class*="ww-"])),
-.shadcn-theme-provider select:not([class*="ww-"]) {
-  display: flex;
-  width: 100%;
-  border-radius: var(--radius);
-  border: 1px solid hsl(var(--input));
-  background: hsl(var(--background));
-  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-  font-size: 14px;
-  transition: all 0.2s;
-  outline: none;
-  color: hsl(var(--foreground));
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  cursor: pointer;
+/* Select */
+select:not([class*="ww-"]):not([class*="wwobject"]) {
+  padding-right: 2.5rem !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.5rem center !important;
+  background-size: 1rem !important;
+  cursor: pointer !important;
 }
 
-.shadcn-theme-provider :global(select:not([class*="ww-"])):focus,
-.shadcn-theme-provider select:not([class*="ww-"]):focus {
-  border-color: hsl(var(--ring));
-  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+/* Checkbox & Radio */
+input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]),
+input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]) {
+  width: 1rem !important;
+  height: 1rem !important;
+  border: 1px solid hsl(var(--primary)) !important;
+  border-radius: calc(var(--radius) / 2) !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  appearance: none !important;
+  background: hsl(var(--background)) !important;
+  position: relative !important;
 }
 
-.shadcn-theme-provider :global(select:not([class*="ww-"])):disabled,
-.shadcn-theme-provider select:not([class*="ww-"]):disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]) {
+  border-radius: 50% !important;
 }
 
-/* Checkbox & Radio - Global */
-.shadcn-theme-provider :global(input[type="checkbox"]:not([class*="ww-"])),
-.shadcn-theme-provider :global(input[type="radio"]:not([class*="ww-"])),
-.shadcn-theme-provider input[type="checkbox"]:not([class*="ww-"]),
-.shadcn-theme-provider input[type="radio"]:not([class*="ww-"]) {
-  width: 1rem;
-  height: 1rem;
-  border: 1px solid hsl(var(--primary));
-  border-radius: calc(var(--radius) / 2);
-  cursor: pointer;
-  transition: all 0.2s;
-  appearance: none;
-  background: hsl(var(--background));
-  position: relative;
+input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):checked,
+input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):checked {
+  background: hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
 }
 
-.shadcn-theme-provider :global(input[type="radio"]:not([class*="ww-"])),
-.shadcn-theme-provider input[type="radio"]:not([class*="ww-"]) {
-  border-radius: 50%;
+input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):checked::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 0.5rem !important;
+  height: 0.25rem !important;
+  border: 2px solid hsl(var(--primary-foreground)) !important;
+  border-top: none !important;
+  border-right: none !important;
+  transform: translate(-50%, -60%) rotate(-45deg) !important;
 }
 
-.shadcn-theme-provider :global(input[type="checkbox"]:not([class*="ww-"])):checked,
-.shadcn-theme-provider :global(input[type="radio"]:not([class*="ww-"])):checked,
-.shadcn-theme-provider input[type="checkbox"]:not([class*="ww-"]):checked,
-.shadcn-theme-provider input[type="radio"]:not([class*="ww-"]):checked {
-  background: hsl(var(--primary));
-  border-color: hsl(var(--primary));
+input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):checked::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+  border-radius: 50% !important;
+  background: hsl(var(--primary-foreground)) !important;
 }
 
-.shadcn-theme-provider :global(input[type="checkbox"]:not([class*="ww-"])):checked::after,
-.shadcn-theme-provider input[type="checkbox"]:not([class*="ww-"]):checked::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 0.5rem;
-  height: 0.25rem;
-  border: 2px solid hsl(var(--primary-foreground));
-  border-top: none;
-  border-right: none;
-  transform: translate(-50%, -60%) rotate(-45deg);
-}
-
-.shadcn-theme-provider :global(input[type="radio"]:not([class*="ww-"])):checked::after,
-.shadcn-theme-provider input[type="radio"]:not([class*="ww-"]):checked::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: hsl(var(--primary-foreground));
-}
-
-.shadcn-theme-provider :global(input[type="checkbox"]:not([class*="ww-"])):focus-visible,
-.shadcn-theme-provider :global(input[type="radio"]:not([class*="ww-"])):focus-visible,
-.shadcn-theme-provider input[type="checkbox"]:not([class*="ww-"]):focus-visible,
-.shadcn-theme-provider input[type="radio"]:not([class*="ww-"]):focus-visible {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
+input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):focus-visible,
+input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):focus-visible {
+  outline: 2px solid hsl(var(--ring)) !important;
+  outline-offset: 2px !important;
 }
 
 /* Labels */
-.shadcn-theme-provider :global(label:not([class*="ww-"])),
-.shadcn-theme-provider label:not([class*="ww-"]) {
-  font-size: 14px;
-  font-weight: 500;
-  color: hsl(var(--foreground));
-  cursor: pointer;
+label:not([class*="ww-"]):not([class*="wwobject"]) {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: hsl(var(--foreground)) !important;
+  cursor: pointer !important;
 }
+      `;
+    }
+  },
+  beforeUnmount() {
+    // Optionnel : retirer les styles quand le composant est détruit
+    const styleElement = document.getElementById('shadcn-global-styles');
+    if (styleElement) {
+      styleElement.remove();
+    }
+  }
+};
+</script>
 
-/* Cards */
-.shadcn-theme-provider :global(.card),
-.shadcn-theme-provider .card {
-  background: hsl(var(--card));
-  color: hsl(var(--card-foreground));
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
-  padding: 1.5rem;
-}
-
-/* Utility Classes */
-.shadcn-theme-provider :global(.text-muted),
-.shadcn-theme-provider .text-muted {
-  color: hsl(var(--muted-foreground));
-}
-
-.shadcn-theme-provider :global(.text-destructive),
-.shadcn-theme-provider .text-destructive {
-  color: hsl(var(--destructive));
-}
-
-.shadcn-theme-provider :global(.border),
-.shadcn-theme-provider .border {
-  border: 1px solid hsl(var(--border));
-}
-
-.shadcn-theme-provider :global(.bg-primary),
-.shadcn-theme-provider .bg-primary {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-}
-
-.shadcn-theme-provider :global(.bg-secondary),
-.shadcn-theme-provider .bg-secondary {
-  background: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-}
-
-.shadcn-theme-provider :global(.bg-muted),
-.shadcn-theme-provider .bg-muted {
-  background: hsl(var(--muted));
-  color: hsl(var(--muted-foreground));
-}
-
-.shadcn-theme-provider :global(.bg-accent),
-.shadcn-theme-provider .bg-accent {
-  background: hsl(var(--accent));
-  color: hsl(var(--accent-foreground));
+<style>
+/* Styles locaux du composant uniquement */
+.shadcn-theme-provider {
+  display: contents;
 }
 </style>
