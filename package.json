@@ -1,12 +1,12 @@
 {
-  "name": "@0x10a/weweb-ui-library",
+  "name": "@0x10a/weweb-shadcn-theme",
   "version": "0.1.0",
-  "description": "Shadcn-inspired UI component library for WeWeb",
+  "description": "Shadcn Theme Provider for WeWeb - Applies Shadcn styles globally to all HTML elements",
   "main": "dist/index.js",
   "private": true,
   "scripts": {
     "serve": "weweb serve",
-    "build": "weweb build"
+    "build": "weweb build --name shadcn-theme"
   },
   "keywords": [
     "weweb",

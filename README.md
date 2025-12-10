@@ -1,35 +1,26 @@
-# 🎨 WeWeb UI Library
+# 🎨 Shadcn Theme Provider for WeWeb
 
-Une bibliothèque de composants UI inspirée de Shadcn pour WeWeb avec un design system noir/neutre cohérent.
+Un composant WeWeb qui applique automatiquement les styles Shadcn à **tous les éléments HTML natifs** de votre page.
 
 ![Version](https://img.shields.io/badge/version-0.1.0-black)
 ![License](https://img.shields.io/badge/license-MIT-black)
 
-## ✨ Caractéristiques
+## ✨ Pourquoi utiliser ce composant ?
 
-- 🎨 **Design Shadcn** - Palette de couleurs noir/neutre (pas bleu)
-- ♿ **Accessible** - Focus rings, navigation clavier, ARIA labels
-- 🎯 **Complet** - 8 composants couvrant tous les besoins de formulaires
-- 🔗 **Bindable** - Toutes les props sont bindables dans WeWeb
-- 📱 **Responsive** - Fonctionne sur tous les écrans
-- 🌙 **Dark mode** - Support du mode sombre intégré
+Au lieu de créer des composants personnalisés pour chaque élément UI, ce **Theme Provider** applique les styles Shadcn directement aux éléments HTML natifs :
 
-## 📦 Composants Disponibles
+- ✅ `<button>` → Style Shadcn automatique
+- ✅ `<input>` → Style Shadcn automatique  
+- ✅ `<select>` → Style Shadcn automatique
+- ✅ `<textarea>` → Style Shadcn automatique
+- ✅ `<checkbox>` → Style Shadcn automatique
+- ✅ `<radio>` → Style Shadcn automatique
 
-| Composant | Description | Variantes |
-|-----------|-------------|-----------|
-| **Button** | Boutons d'action | default, secondary, outline, ghost, destructive, link |
-| **Input** | Champs de saisie | text, email, password, number, tel, url, search |
-| **Textarea** | Zone de texte multiligne | Resize: none, vertical, horizontal, both |
-| **Select** | Menu déroulant | Options configurables |
-| **Checkbox** | Case à cocher | Simple avec label |
-| **Radio** | Boutons radio | Vertical, horizontal |
-| **Switch** | Interrupteur toggle | On/Off |
-| **DatePicker** | Sélecteur de date | Avec validation min/max |
+**Résultat :** Tous vos formulaires HTML ont le style Shadcn **sans aucun travail supplémentaire** !
 
 ## 🚀 Installation
 
-### Méthode 1: Via WeWeb (Recommandé)
+### Via WeWeb
 
 1. Ouvrez votre projet WeWeb
 2. Allez dans **Settings → Plugins**
@@ -37,102 +28,128 @@ Une bibliothèque de composants UI inspirée de Shadcn pour WeWeb avec un design
 4. Entrez l'URL: `https://github.com/0x10a/weweb-ui-library`
 5. Installez
 
-### Méthode 2: Installation locale
+## 💻 Utilisation
 
-```bash
-cd c:\laragon\www\weweb\
-git clone https://github.com/0x10a/weweb-ui-library.git
-cd weweb-ui-library
-npm install
-npm run serve
-```
+### 1. Ajouter le composant à votre page
 
-## 💻 Utilisation dans WeWeb
+1. Dans l'éditeur WeWeb, cliquez sur **"Add"**
+2. Cherchez **"Shadcn Theme"**
+3. Glissez-déposez sur votre page (généralement à la racine)
 
-1. **Ajouter un composant**
-   - Cliquez sur "Add" dans l'éditeur
-   - Cherchez "UI Library" dans les catégories
-   - Glissez-déposez le composant souhaité
+### 2. Configuration
 
-2. **Configurer les props**
-   - Sélectionnez le composant
-   - Panneau de droite → Settings
-   - Modifiez les propriétés (label, placeholder, etc.)
+Le composant a 2 options :
 
-3. **Binder des données**
-   - Cliquez sur l'icône de binding (🔗)
-   - Sélectionnez une variable ou collection
-   - Le composant se met à jour automatiquement
+| Propriété | Description | Valeur par défaut |
+|-----------|-------------|-------------------|
+| **Dark Mode** | Active le mode sombre | `false` |
+| **Apply to entire page** | Applique les styles globalement | `true` |
+
+### 3. C'est tout ! 
+
+Maintenant, tous vos éléments HTML (`<button>`, `<input>`, `<select>`, etc.) ont automatiquement le style Shadcn !
 
 ## 📝 Exemples
 
-### Button avec icône
+### Boutons
 
-```javascript
-{
-  label: "Créer un compte",
-  variant: "default",
-  size: "lg",
-  icon: "lucide/user-plus",
-  iconPosition: "left"
-}
+```html
+<!-- HTML natif -->
+<button>Cliquez-moi</button>
+<button class="secondary">Secondaire</button>
+<button class="outline">Contour</button>
+<button class="ghost">Ghost</button>
+<button class="destructive">Supprimer</button>
+<button class="link">Lien</button>
 ```
 
-### Input avec validation
+**Résultat :** Tous les boutons ont le style Shadcn automatiquement !
 
-```javascript
-{
-  type: "email",
-  label: "Email",
-  placeholder: "nom@example.com",
-  required: true,
-  errorText: "Email invalide",
-  icon: "lucide/mail"
-}
+### Inputs
+
+```html
+<!-- HTML natif -->
+<input type="text" placeholder="Nom" />
+<input type="email" placeholder="Email" />
+<input type="password" placeholder="Mot de passe" />
 ```
 
-### Select avec options dynamiques
+**Résultat :** Tous les inputs ont le style Shadcn avec focus ring !
 
-```javascript
-{
-  label: "Pays",
-  value: "{{user.country}}",
-  options: "{{countries}}", // Collection bindée
-  placeholder: "Sélectionnez un pays"
-}
+### Select
+
+```html
+<!-- HTML natif -->
+<select>
+  <option>Option 1</option>
+  <option>Option 2</option>
+  <option>Option 3</option>
+</select>
 ```
 
-## 🎨 Personnalisation
+**Résultat :** Select avec l'icône chevron et le style Shadcn !
 
-### Design Tokens
+### Checkbox & Radio
 
-Modifiez `src/styles/tokens.css` pour personnaliser les couleurs:
+```html
+<!-- HTML natif -->
+<label>
+  <input type="checkbox" />
+  J'accepte les conditions
+</label>
+
+<label>
+  <input type="radio" name="choice" />
+  Choix 1
+</label>
+```
+
+**Résultat :** Checkbox et radio avec le style Shadcn personnalisé !
+
+## 🎨 Classes CSS disponibles
+
+Le Theme Provider ajoute aussi des classes utilitaires :
+
+| Classe | Description |
+|--------|-------------|
+| `.card` | Carte avec bordure et padding |
+| `.text-muted` | Texte en couleur muted |
+| `.text-destructive` | Texte en rouge destructif |
+| `.border` | Bordure Shadcn |
+| `.bg-primary` | Fond noir primaire |
+| `.bg-secondary` | Fond gris secondaire |
+| `.bg-muted` | Fond gris muted |
+| `.bg-accent` | Fond accent |
+
+## 🌙 Mode Sombre
+
+Pour activer le mode sombre :
+
+1. Sélectionnez le composant **Shadcn Theme** sur votre page
+2. Dans le panneau de droite → Settings
+3. Activez **Dark Mode**
+
+Vous pouvez aussi binder cette propriété à une variable pour un toggle dynamique !
+
+## 🔧 Compatibilité WeWeb
+
+Ce composant **n'affecte PAS** les éléments WeWeb natifs (ceux avec `ww-` dans le nom de classe). Vos composants WeWeb existants continuent de fonctionner normalement.
+
+## 📚 Design Tokens
+
+Le Theme Provider utilise les tokens CSS Shadcn standard :
 
 ```css
-:root {
-  --primary: 0 0% 9%;        /* Noir pour les boutons */
-  --destructive: 0 84% 60%;  /* Rouge pour les actions destructrices */
-  --radius: 0.5rem;          /* Border radius */
-}
+--primary: 0 0% 9%;           /* Noir */
+--secondary: 0 0% 96.1%;      /* Gris clair */
+--destructive: 0 84.2% 60.2%; /* Rouge */
+--border: 0 0% 89.8%;         /* Bordure */
+--input: 0 0% 89.8%;          /* Input */
+--ring: 0 0% 3.9%;            /* Focus ring */
+--radius: 0.5rem;             /* Border radius */
 ```
 
-### Mode Sombre
-
-Ajoutez la classe `.dark` à l'élément racine pour activer le mode sombre:
-
-```javascript
-document.documentElement.classList.add('dark');
-```
-
-## 📚 Documentation Complète
-
-Consultez [COMPONENTS.md](./COMPONENTS.md) pour:
-- Props détaillées de chaque composant
-- Exemples d'utilisation
-- Guide de personnalisation
-- Liste complète des events
-
-## 🛠️ Développement
+## 🛠️ Développement Local
 
 ```bash
 # Installer les dépendances
@@ -145,15 +162,17 @@ npm run serve
 npm run build
 ```
 
-## 🤝 Contribution
+## 💡 Cas d'usage
 
-Les contributions sont les bienvenues ! 
+### ✅ Idéal pour :
+- Prototyper rapidement avec des formulaires HTML
+- Uniformiser le style de tous les éléments HTML d'une page
+- Appliquer Shadcn sans créer de composants personnalisés
+- Avoir un design system cohérent en 2 clics
 
-1. Fork le projet
-2. Créez une branche (`git checkout -b feature/AmazingFeature`)
-3. Commit vos changements (`git commit -m 'Add AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrez une Pull Request
+### ❌ Pas idéal pour :
+- Si vous voulez un contrôle total sur chaque élément
+- Si vous avez déjà beaucoup de CSS personnalisé
 
 ## 📄 Licence
 
@@ -163,12 +182,8 @@ MIT © [0x10a](https://github.com/0x10a)
 
 - [Repository GitHub](https://github.com/0x10a/weweb-ui-library)
 - [WeWeb](https://www.weweb.io)
-- [Shadcn UI](https://ui.shadcn.com) (Inspiration design)
-
-## ⭐ Support
-
-Si cette bibliothèque vous est utile, n'hésitez pas à laisser une étoile sur GitHub !
+- [Shadcn UI](https://ui.shadcn.com)
 
 ---
 
-**Note:** Cette bibliothèque est conçue spécifiquement pour WeWeb. Pour l'utiliser dans un projet Vue.js standard, des adaptations seront nécessaires.
+**Astuce :** Placez le composant à la racine de votre page pour que les styles s'appliquent à tous les éléments enfants !
