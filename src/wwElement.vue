@@ -42,8 +42,14 @@ export default {
       styleElement.textContent = this.getGlobalCSS();
       document.head.appendChild(styleElement);
       
-      console.log('Shadcn Theme: Global styles injected successfully');
-      console.log('Affected elements:', document.querySelectorAll('button:not([class*="ww-"]):not([class*="wwobject"])').length, 'buttons');
+      console.log('✅ Shadcn Theme: Global styles injected successfully');
+      console.log('📊 Stats:', {
+        buttons: document.querySelectorAll('button').length,
+        inputs: document.querySelectorAll('input:not([type="checkbox"]):not([type="radio"])').length,
+        selects: document.querySelectorAll('select').length,
+        checkboxes: document.querySelectorAll('input[type="checkbox"]').length,
+        textareas: document.querySelectorAll('textarea').length
+      });
     },
     getGlobalCSS() {
       return `
@@ -85,8 +91,8 @@ export default {
   --ring: 0 0% 83.1%;
 }
 
-/* Buttons */
-button:not([class*="ww-"]):not([class*="wwobject"]) {
+/* Buttons - Apply to ALL buttons */
+button {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -105,16 +111,16 @@ button:not([class*="ww-"]):not([class*="wwobject"]) {
   outline: none !important;
 }
 
-button:not([class*="ww-"]):not([class*="wwobject"]):hover:not(:disabled) {
+button:hover:not(:disabled) {
   opacity: 0.9 !important;
 }
 
-button:not([class*="ww-"]):not([class*="wwobject"]):focus-visible {
+button:focus-visible {
   outline: 2px solid hsl(var(--ring)) !important;
   outline-offset: 2px !important;
 }
 
-button:not([class*="ww-"]):not([class*="wwobject"]):disabled {
+button:disabled {
   pointer-events: none !important;
   opacity: 0.5 !important;
 }
@@ -155,10 +161,10 @@ button.link {
   height: auto !important;
 }
 
-/* Inputs */
-input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"]),
-textarea:not([class*="ww-"]):not([class*="wwobject"]),
-select:not([class*="ww-"]):not([class*="wwobject"]) {
+/* Inputs - Apply to ALL inputs */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
   display: flex !important;
   width: 100% !important;
   border-radius: var(--radius) !important;
@@ -171,33 +177,33 @@ select:not([class*="ww-"]):not([class*="wwobject"]) {
   color: hsl(var(--foreground)) !important;
 }
 
-input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"]):focus,
-textarea:not([class*="ww-"]):not([class*="wwobject"]):focus,
-select:not([class*="ww-"]):not([class*="wwobject"]):focus {
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus,
+select:focus {
   border-color: hsl(var(--ring)) !important;
   box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2) !important;
 }
 
-input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"]):disabled,
-textarea:not([class*="ww-"]):not([class*="wwobject"]):disabled,
-select:not([class*="ww-"]):not([class*="wwobject"]):disabled {
+input:not([type="checkbox"]):not([type="radio"]):disabled,
+textarea:disabled,
+select:disabled {
   cursor: not-allowed !important;
   opacity: 0.5 !important;
 }
 
-input:not([type="checkbox"]):not([type="radio"]):not([class*="ww-"]):not([class*="wwobject"])::placeholder,
-textarea:not([class*="ww-"]):not([class*="wwobject"])::placeholder {
+input:not([type="checkbox"]):not([type="radio"])::placeholder,
+textarea::placeholder {
   color: hsl(var(--muted-foreground)) !important;
 }
 
 /* Textarea */
-textarea:not([class*="ww-"]):not([class*="wwobject"]) {
+textarea {
   min-height: 80px !important;
   resize: vertical !important;
 }
 
 /* Select */
-select:not([class*="ww-"]):not([class*="wwobject"]) {
+select {
   padding-right: 2.5rem !important;
   appearance: none !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
@@ -208,8 +214,8 @@ select:not([class*="ww-"]):not([class*="wwobject"]) {
 }
 
 /* Checkbox & Radio */
-input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]),
-input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]) {
+input[type="checkbox"],
+input[type="radio"] {
   width: 1rem !important;
   height: 1rem !important;
   border: 1px solid hsl(var(--primary)) !important;
@@ -221,17 +227,17 @@ input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]) {
   position: relative !important;
 }
 
-input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]) {
+input[type="radio"] {
   border-radius: 50% !important;
 }
 
-input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):checked,
-input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):checked {
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
   background: hsl(var(--primary)) !important;
   border-color: hsl(var(--primary)) !important;
 }
 
-input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):checked::after {
+input[type="checkbox"]:checked::after {
   content: '' !important;
   position: absolute !important;
   left: 50% !important;
@@ -244,7 +250,7 @@ input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):checked::aft
   transform: translate(-50%, -60%) rotate(-45deg) !important;
 }
 
-input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):checked::after {
+input[type="radio"]:checked::after {
   content: '' !important;
   position: absolute !important;
   left: 50% !important;
@@ -256,14 +262,14 @@ input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):checked::after 
   background: hsl(var(--primary-foreground)) !important;
 }
 
-input[type="checkbox"]:not([class*="ww-"]):not([class*="wwobject"]):focus-visible,
-input[type="radio"]:not([class*="ww-"]):not([class*="wwobject"]):focus-visible {
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
   outline: 2px solid hsl(var(--ring)) !important;
   outline-offset: 2px !important;
 }
 
 /* Labels */
-label:not([class*="ww-"]):not([class*="wwobject"]) {
+label {
   font-size: 14px !important;
   font-weight: 500 !important;
   color: hsl(var(--foreground)) !important;
