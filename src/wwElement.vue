@@ -12,16 +12,38 @@ export default {
   },
   mounted() {
     this.injectGlobalStyles();
+    this.applyDarkMode();
+  },
+  watch: {
+    'content.darkMode'(newValue) {
+      this.applyDarkMode();
+    }
   },
   methods: {
+    applyDarkMode() {
+      if (this.content.darkMode) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
+      }
+    },
     injectGlobalStyles() {
       // Vérifier si les styles sont déjà injectés
-      if (document.getElementById('shadcn-global-styles')) return;
+      const existingStyle = document.getElementById('shadcn-global-styles');
+      if (existingStyle) {
+        console.log('Shadcn Theme: Styles already injected');
+        return;
+      }
 
       const styleElement = document.createElement('style');
       styleElement.id = 'shadcn-global-styles';
       styleElement.textContent = this.getGlobalCSS();
       document.head.appendChild(styleElement);
+      
+      console.log('Shadcn Theme: Global styles injected successfully');
+      console.log('Affected elements:', document.querySelectorAll('button:not([class*="ww-"]):not([class*="wwobject"])').length, 'buttons');
     },
     getGlobalCSS() {
       return `
